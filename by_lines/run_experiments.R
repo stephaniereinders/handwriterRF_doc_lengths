@@ -1,13 +1,13 @@
 library(handwriter)
 library(handwriterRF)
-source("R/analysis.R")
-source("R/compare.R")
-source("R/plot.R")
-source("R/profiles.R")
+source("by_lines/R/analysis.R")
+source("by_lines/R/compare.R")
+source("by_lines/R/plot.R")
+source("by_lines/R/profiles.R")
 
 # Compare Estimates from Lines to Actual Profiles -------------------------
 
-main_dir <- "/Users/stephanie/Documents/handwriting_datasets/CVL/lines/clusters"
+main_dir <- "/Users/stephanie/Documents/non_version_control/handwriting_datasets/CVL/lines/clusters"
 line_profiles <- load_profiles(main_dir = main_dir, drop_German_prompt = TRUE)
 
 line_profiles_sum_all_lines <- estimate_profiles_from_all_lines(line_profiles, num_lines = "all")

@@ -1,29 +1,3 @@
-compare_est_to_expected <- function(estimated_profiles, expected_profiles, output_dir = "data/cvl") {
-  if (file.exists(file.path(output_dir, "KM_est_v_exp_profiles.rds"))) {
-    KM <- readRDS(file.path(output_dir, "KM_est_v_exp_profiles.rds"))
-  } else {
-    distances <- list()
-    slrs <- list()
-    for (i in 1:nrow(estimated_profiles)) {
-      estimated_profile <- estimated_profiles[i,]
-      w <- estimated_profile$writer
-      d <- estimated_profile$doc
-      expected_profile <- expected_profiles %>% dplyr::filter(writer == w, doc == d)
-      pair <- rbind(estimated_profile, expected_profile)
-      pair <- handwriterRF::get_cluster_fill_rates(pair)
-      distances[[i]] <- handwriterRF::get_distances(pair, c("max"))
-      slrs[[i]] <- compare_writer_profiles(pair, score_only = FALSE)
-    }
-    KM <- list()
-    KM$distances <- do.call(rbind, distances)
-    KM$slrs <- do.call(rbind, slrs)
-
-    saveRDS(KM, file.path(output_dir, "KM_est_v_exp_profiles.rds"))
-  }
-
-  return(KM)
-}
-
 compare_lengths <- function(line_profiles, ref_profiles, num_lines1, num_lines2, drop_same_set_comparisons = TRUE) {
   choose_lines_or_ref <- function(line_profiles, ref_profiles, num_lines) {
     if (num_lines == "all") {
